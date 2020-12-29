@@ -3,10 +3,18 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 
+from .models import Upload
 from .forms import CreateUserForm
 # Create your views here.
 
 def index(request):
+    if request.user.is_authenticated:
+        user = request.user.get_username()
+        uploads = Upload.objects.filter(uploader__username=user)
+        context = {'uploads' : uploads}
+        
+        return render(request,'index.html', context)
+
     return render(request, 'index.html')
 
 def register(request):
