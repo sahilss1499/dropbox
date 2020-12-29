@@ -1,10 +1,17 @@
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
 from .models import Upload
-from .forms import CreateUserForm
+from .forms import CreateUserForm, UploadForm
+
+from django.contrib.auth.decorators import login_required
+
+# imports for using class based views
+from django.views.generic import CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
 def index(request):
@@ -62,3 +69,28 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect('index')
+
+
+
+@login_required(login_url='login')
+def UploadFiles(request):
+    form = UploadForm()
+    user = request.user.get_username()
+    if request.method == 'POST':
+        form = UploadForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            upload = form.save(commit=False)
+            upload.uploader = get_object_or_404(User, username=user)
+            upload.file_upload = request.FILES['file_upload']
+            upload.save()
+            print("Upload Successfull!")
+        return redirect('index')
+
+
+    context = {'form' : form}
+    return render(request, 'uploadfile.html', context)
+        
+
+
+    
