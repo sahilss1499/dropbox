@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 
 from .forms import CreateUserForm
@@ -28,4 +29,28 @@ def register(request):
 
 
 def user_login(request):
-    return render(request, 'login.html')
+    if request.user.is_authenticated:
+        return redirect('index')
+    
+    else:
+        if request.method == 'POST':
+            # grabing the username and password to authenticate user
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                print("A valid login request was made")
+                login(request, user)
+                return redirect('index')
+
+            else:
+                print("a user failed to login")
+                messages.info(request, 'Username OR password is incorrect')
+        
+        return render(request,'login.html')
+
+
+def user_logout(request):
+    logout(request)
+    return redirect('index')
