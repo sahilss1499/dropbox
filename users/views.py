@@ -82,6 +82,12 @@ def UploadFiles(request):
         if form.is_valid():
             upload = form.save(commit=False)
             upload.uploader = get_object_or_404(User, username=user)
+            # data dictionary will contain all the data of the form
+            data = form.cleaned_data
+            # if there exists an object with the same title previousely then don't save it to the db
+            if Upload.objects.filter(uploader=upload.uploader, title=data['title']).exists():
+                return HttpResponse('<h1>File with same title exists perviousely upload it with a differnt title</h1>')
+                
             upload.file_upload = request.FILES['file_upload']
             upload.save()
             print("Upload Successfull!")
