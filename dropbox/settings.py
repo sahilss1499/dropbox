@@ -26,7 +26,7 @@ SECRET_KEY = 'j0&&+@o0&eslc12qq=%bg$&jw@a!@eta7oy8#asn)k!j(z802m'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'django-dropbox.herokuapp.com/']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'django-dropbox.herokuapp.com']
 
 
 # Application definition
