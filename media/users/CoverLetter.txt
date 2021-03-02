@@ -1,6 +1,0 @@
-Hi,
-I am Sahil a pre-final year undergrad from IIT(ISM), Dhanbad. I am properly skilled in web development and making REST APIs using python(using Django and Django REST frameworks), HTML, CSS, JavaScript. Apart from this, I have good problem-solving abilities using C/C++ and have solved 500+ problems on various coding platforms. 
-
-I look forward to speaking with you.
-Sincerely,
-Sahil Sinha
